@@ -5,42 +5,53 @@ const SLEEVE_MAPPING = {
 	"plain?" : "P (plain only?)"
 };
 
+const displayFooter = itemCount => {
+	$("#foot").append("(" + itemCount + " items)");
+}
+
+const displayContent = subListsAnchors => {
+	let text = "<ul>";
+	subListsAnchors.forEach(anchor => {
+		text += '<li><a href="#' + anchor + '">' + anchor + '</a></li>'
+	});
+	text += "</ul>";
+
+	$("#content").append(text);
+}
+
 $(document).ready(function () {
 	const subListsAnchors = [];
 	let isEven = true;
 	let text = "";
 	let itemCount = 0;
 
-	for (let i = 0; i < data.length; i++) {
-
-		isEven = isEven ? false : true;
-		const item = data[i];
-
+	data.forEach(item => {
 		if (!item || item.length === 0 || item[0].trim() === "") {
-			continue;
+			return;
 		}
 
 		if (item[0].trim() === "List") {
 			const subListAnchor = item[1];
 			if (subListAnchor === "") {
-				continue;
+				return;
 			}
 
 			text += '<h2><a name="' + subListAnchor + '">' + subListAnchor + '</a></h2>';
 			subListsAnchors.push(subListAnchor);
 
-			continue;
+			return;
 		}
 
 		itemCount++;
+		isEven = isEven ? false : true;
 
-		const artist = item[0].toUpperCase().trim();
-		const title = item[1].toUpperCase().trim();
-		let sleeve = item[3].toUpperCase();
+		const artist = item[0].trim().toUpperCase();
+		const title = item[1].trim().toUpperCase();
+		let sleeve = item[3].trim().toUpperCase();
 		const sleeveMapping = SLEEVE_MAPPING[sleeve];
 		sleeve = sleeveMapping ? sleeveMapping : sleeve;
 
-		text += "<div class='entry " + (isEven ? "even" : "odd") + "' id=id" + i + ">" + artist + " - " + title;
+		text += "<div class='entry " + (isEven ? "even" : "odd") + "'>" + artist + " - " + title;
 		if (item.length > 2 && item[2] && item[2] !== "" || item.length > 4 && item[4] && item[4] !== "") {
 			text += " (";
 			if (item[2] && item[2] != "")
@@ -62,19 +73,10 @@ $(document).ready(function () {
 		}
 
 		text += "</div>";
-	}
+	});
 
 	$("#output").append(text);
 
-	text = "<ul>";
-	for (let i = 0; i < subListsAnchors.length; i++) {
-		const anchor = subListsAnchors[i];
-		text += '<li><a href="#' + anchor + '">' + anchor + '</a></li>';
-	}
-	text += "</ul>";
-
-	$("#content").append(text);
-
-	$("#foot").append("(" + itemCount + " items)");
-
+	displayContent(subListsAnchors);
+	displayFooter(itemCount);
 });
