@@ -2,7 +2,7 @@ const SLEEVE_MAPPING = {
 	none: "P",
 	FS: "CS",
 	plain: "P (plain only)",
-	"plain?" : "P (plain only?)"
+	"plain?": "P (plain only?)"
 };
 
 const displayFooter = itemCount => {
