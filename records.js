@@ -9,7 +9,7 @@ const displayFooter = itemCount => {
 	$("#foot").append("(" + itemCount + " items)");
 }
 
-const displayContent = subListsAnchors => {
+const displayContents = subListsAnchors => {
 	let text = "<ul>";
 	subListsAnchors.forEach(anchor => {
 		text += '<li><a href="#' + anchor + '">' + anchor + '</a></li>'
@@ -19,7 +19,7 @@ const displayContent = subListsAnchors => {
 	$("#content").append(text);
 }
 
-$(document).ready(function () {
+const displayLists = data => {
 	const subListsAnchors = [];
 	let isEven = true;
 	let text = "";
@@ -29,6 +29,8 @@ $(document).ready(function () {
 		if (!item || item.length === 0 || item[0].trim() === "") {
 			return;
 		}
+
+		// add sublist header to output text
 
 		if (item[0].trim() === "List") {
 			const subListAnchor = item[1];
@@ -42,6 +44,8 @@ $(document).ready(function () {
 			return;
 		}
 
+		// display item to output text
+
 		itemCount++;
 		isEven = isEven ? false : true;
 
@@ -50,25 +54,29 @@ $(document).ready(function () {
 		let sleeve = item[3].trim().toUpperCase();
 		const sleeveMapping = SLEEVE_MAPPING[sleeve];
 		sleeve = sleeveMapping ? sleeveMapping : sleeve;
-
 		text += "<div class='entry " + (isEven ? "even" : "odd") + "'>" + artist + " - " + title;
-		if (item.length > 2 && item[2] && item[2] !== "" || item.length > 4 && item[4] && item[4] !== "") {
+
+		const year = item.length > 2 && item[2] && item[2] !== "" ? item[2].trim() : undefined;
+		const label = item.length > 4 && item[4] && item[4] !== "" ? item[4].trim() : undefined;
+		if (year || label) {
 			text += " (";
-			if (item[2] && item[2] != "")
-				text += item[2];
-			if (item.length > 4 && item[2] && item[2] !== "" && item[4] && item[4] !== "")
+			if (year)
+				text += year;
+			if (year && label)
 				text += " ";
-			if (item.length > 4 && item[4] && item[4] !== "")
-				text += item[4].toUpperCase();
+			if (label)
+				text += label.toUpperCase();
 			text += ")";
 		}
+
 		if (sleeve && sleeve !== "") {
 			text += ", " + sleeve;
 		}
-		// comment
-		if (item.length > 5 && item[5] && item[5] !== "") {
+
+		const comment = item.length > 5 && item[5] && item[5] !== "" ? item[5].trim() : undefined;
+		if (comment) {
 			text += " (";
-			text += item[5].toUpperCase();
+			text += comment.toUpperCase();
 			text += ")";
 		}
 
@@ -77,6 +85,11 @@ $(document).ready(function () {
 
 	$("#output").append(text);
 
-	displayContent(subListsAnchors);
+	return { subListsAnchors, itemCount };
+}
+
+$(document).ready(function () {
+	const { subListsAnchors, itemCount } = displayLists(data);
+	displayContents(subListsAnchors);
 	displayFooter(itemCount);
 });
