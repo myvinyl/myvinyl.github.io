@@ -89,7 +89,13 @@ const displayLists = data => {
 }
 
 $(document).ready(function () {
-	const { subListsAnchors, itemCount } = displayLists(data);
-	displayContents(subListsAnchors);
-	displayFooter(itemCount);
+	$.getJSON('list.json', data => {
+		if (data === null) {
+			console.log('no data');
+			return;
+		}      
+		const { subListsAnchors, itemCount } = displayLists(data);
+		displayContents(subListsAnchors);
+		displayFooter(itemCount);
+	});
 });
