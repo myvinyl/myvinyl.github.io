@@ -5,7 +5,7 @@ const SLEEVE_MAPPING = {
 	"plain?": "P (plain only?)"
 };
 
-const ARTISTS = 0;
+const ARTIST = 0;
 const TITLE = 1;
 const YEAR = 2;
 const SLEEVE = 3;
@@ -34,7 +34,7 @@ const displayContents = subListsAnchors => {
 
 const getItemIndexOrUndefined = (item, index) => item.length > index && item[index] && item[index] !== "" ? item[index].trim() : undefined;
 
-const isSubListStart = item => item[SUBLIST_INDICATOR_INDEX].trim() === SUBLIST_INDICATOR;
+const isSubListStart = item => item[SUBLIST_INDICATOR_INDEX] && item[SUBLIST_INDICATOR_INDEX].trim() === SUBLIST_INDICATOR;
 
 const createArtistTitle = item => {
 	const artist = item[ARTIST];
