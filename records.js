@@ -7,8 +7,8 @@ const SLEEVE_MAPPING = {
 
 const ARTISTS = 0;
 const TITLE = 1;
-const SLEEVE = 3;
 const YEAR = 2;
+const SLEEVE = 3;
 const LABEL = 4;
 const COMMENT = 5;
 
@@ -24,6 +24,10 @@ const displayContents = subListsAnchors => {
 	text += "</ul>";
 
 	$("#content").append(text);
+}
+
+const getItemIndexOrUndefined = (item, index) => {
+	return item.length > index && item[index] && item[index] !== "" ? item[index].trim() : undefined;
 }
 
 const displayLists = data => {
@@ -56,15 +60,12 @@ const displayLists = data => {
 		itemCount++;
 		isEven = isEven ? false : true;
 
-		const artist = item[ARTISTS].trim().toUpperCase();
-		const title = item[TITLE].trim().toUpperCase();
-		let sleeve = item[SLEEVE].trim().toUpperCase();
-		const sleeveMapping = SLEEVE_MAPPING[sleeve];
-		sleeve = sleeveMapping ? sleeveMapping : sleeve;
-		text += "<div class='entry " + (isEven ? "even" : "odd") + "'>" + artist + " - " + title;
+		const artist = item[ARTIST];
+		const title = item[TITLE];
+		text += "<div class='entry " + (isEven ? "even" : "odd") + "'>" + artist.trim().toUpperCase() + " - " + title.trim().toUpperCase();
 
-		const year = item.length > YEAR && item[YEAR] && item[YEAR] !== "" ? item[YEAR].trim() : undefined;
-		const label = item.length > LABEL && item[LABEL] && item[LABEL] !== "" ? item[LABEL].trim() : undefined;
+		const year = getItemIndexOrUndefined(item, YEAR);
+		const label = getItemIndexOrUndefined(item, LABEL);
 		if (year || label) {
 			text += " (";
 			if (year)
@@ -76,11 +77,13 @@ const displayLists = data => {
 			text += ")";
 		}
 
-		if (sleeve && sleeve !== "") {
-			text += ", " + sleeve;
+		let sleeve = getItemIndexOrUndefined(item, SLEEVE);
+		if (sleeve) {
+			const sleeveMapping = SLEEVE_MAPPING[sleeve];
+			text += ", " + sleeveMapping ? sleeveMapping : sleeve;
 		}
 
-		const comment = item.length > COMMENT && item[COMMENT] && item[COMMENT] !== "" ? item[COMMENT].trim() : undefined;
+		const comment = getItemIndexOrUndefined(item, COMMENT);
 		if (comment) {
 			text += " (";
 			text += comment.toUpperCase();
