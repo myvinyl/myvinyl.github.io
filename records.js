@@ -73,7 +73,7 @@ const createSleeve = item => {
 	const sleeve = getItemIndexOrUndefined(item, SLEEVE);
 	if (sleeve) {
 		const sleeveMapping = SLEEVE_MAPPING[sleeve];
-		return ", " + (sleeveMapping ? sleeveMapping : sleeve);
+		return ", " + (sleeveMapping ?? sleeve);
 	}
 	return '';
 }
