@@ -43,7 +43,7 @@ const createArtistTitle = item => {
 }
 
 const createYearLabel = item => {
-	const text = '';
+	let text = '';
 	const year = getItemIndexOrUndefined(item, YEAR);
 	const label = getItemIndexOrUndefined(item, LABEL);
 	if (year || label) {
