@@ -1,9 +1,9 @@
-const SLEEVE_MAPPING = {
+const SLEEVE_MAPPING = Object.freeze({
 	none: "P",
 	FS: "CS",
 	plain: "P (plain only)",
 	"plain?": "P (plain only?)"
-};
+});
 
 const ARTIST = 0;
 const TITLE = 1;
