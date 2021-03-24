@@ -12,6 +12,12 @@ const SLEEVE = 3;
 const LABEL = 4;
 const COMMENT = 5;
 
+const SUBLIST_INDICATOR = 'List';
+const SUBLIST_INDICATOR_INDEX = 0;
+const SUBLIST_ANCHOR_INDEX = 1;
+
+const DATA_FILE = 'list.json';
+
 const displayFooter = itemCount => {
 	$("#foot").append("(" + itemCount + " items)");
 }
@@ -26,8 +32,48 @@ const displayContents = subListsAnchors => {
 	$("#content").append(text);
 }
 
-const getItemIndexOrUndefined = (item, index) => {
-	return item.length > index && item[index] && item[index] !== "" ? item[index].trim() : undefined;
+const getItemIndexOrUndefined = (item, index) => item.length > index && item[index] && item[index] !== "" ? item[index].trim() : undefined;
+
+const isSubListStart = item => item[SUBLIST_INDICATOR_INDEX].trim() === SUBLIST_INDICATOR;
+
+const createArtistTitle = item => {
+	const artist = item[ARTIST];
+	const title = item[TITLE];
+	return artist.trim().toUpperCase() + " - " + title.trim().toUpperCase();
+}
+
+const createYearLabel = item => {
+	const text = '';
+	const year = getItemIndexOrUndefined(item, YEAR);
+	const label = getItemIndexOrUndefined(item, LABEL);
+	if (year || label) {
+		text += " (";
+		if (year)
+			text += year;
+		if (year && label)
+			text += " ";
+		if (label)
+			text += label.toUpperCase();
+		text += ")";
+	}
+	return text;
+}
+
+const createComment = item => {
+	const comment = getItemIndexOrUndefined(item, COMMENT);
+	if (comment) {
+		return " (" + comment.toUpperCase() + ")";
+	}
+	return '';
+}
+
+const createSleeve = item => {
+	const sleeve = getItemIndexOrUndefined(item, SLEEVE);
+	if (sleeve) {
+		const sleeveMapping = SLEEVE_MAPPING[sleeve];
+		return ", " + sleeveMapping ? sleeveMapping : sleeve;
+	}
+	return '';
 }
 
 const displayLists = data => {
@@ -43,8 +89,8 @@ const displayLists = data => {
 
 		// add sublist header to output text
 
-		if (item[0].trim() === "List") {
-			const subListAnchor = item[1];
+		if (isSubListStart(item)) {
+			const subListAnchor = item[SUBLIST_ANCHOR_INDEX];
 			if (subListAnchor === "") {
 				return;
 			}
@@ -59,37 +105,8 @@ const displayLists = data => {
 
 		itemCount++;
 		isEven = isEven ? false : true;
-
-		const artist = item[ARTIST];
-		const title = item[TITLE];
-		text += "<div class='entry " + (isEven ? "even" : "odd") + "'>" + artist.trim().toUpperCase() + " - " + title.trim().toUpperCase();
-
-		const year = getItemIndexOrUndefined(item, YEAR);
-		const label = getItemIndexOrUndefined(item, LABEL);
-		if (year || label) {
-			text += " (";
-			if (year)
-				text += year;
-			if (year && label)
-				text += " ";
-			if (label)
-				text += label.toUpperCase();
-			text += ")";
-		}
-
-		let sleeve = getItemIndexOrUndefined(item, SLEEVE);
-		if (sleeve) {
-			const sleeveMapping = SLEEVE_MAPPING[sleeve];
-			text += ", " + sleeveMapping ? sleeveMapping : sleeve;
-		}
-
-		const comment = getItemIndexOrUndefined(item, COMMENT);
-		if (comment) {
-			text += " (";
-			text += comment.toUpperCase();
-			text += ")";
-		}
-
+		text += "<div class='entry " + (isEven ? "even" : "odd") + "'>";
+		text += createArtistTitle(item) + createYearLabel(item) + createSleeve(item) + createComment(item);
 		text += "</div>";
 	});
 
@@ -99,7 +116,7 @@ const displayLists = data => {
 }
 
 $(document).ready(function () {
-	$.getJSON('list.json', data => {
+	$.getJSON(DATA_FILE, data => {
 		if (data === null) {
 			console.log('no data');
 			return;
