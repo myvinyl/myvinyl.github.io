@@ -5,6 +5,13 @@ const SLEEVE_MAPPING = {
 	"plain?": "P (plain only?)"
 };
 
+const ARTISTS = 0;
+const TITLE = 1;
+const SLEEVE = 3;
+const YEAR = 2;
+const LABEL = 4;
+const COMMENT = 5;
+
 const displayFooter = itemCount => {
 	$("#foot").append("(" + itemCount + " items)");
 }
@@ -49,15 +56,15 @@ const displayLists = data => {
 		itemCount++;
 		isEven = isEven ? false : true;
 
-		const artist = item[0].trim().toUpperCase();
-		const title = item[1].trim().toUpperCase();
-		let sleeve = item[3].trim().toUpperCase();
+		const artist = item[ARTISTS].trim().toUpperCase();
+		const title = item[TITLE].trim().toUpperCase();
+		let sleeve = item[SLEEVE].trim().toUpperCase();
 		const sleeveMapping = SLEEVE_MAPPING[sleeve];
 		sleeve = sleeveMapping ? sleeveMapping : sleeve;
 		text += "<div class='entry " + (isEven ? "even" : "odd") + "'>" + artist + " - " + title;
 
-		const year = item.length > 2 && item[2] && item[2] !== "" ? item[2].trim() : undefined;
-		const label = item.length > 4 && item[4] && item[4] !== "" ? item[4].trim() : undefined;
+		const year = item.length > YEAR && item[YEAR] && item[YEAR] !== "" ? item[YEAR].trim() : undefined;
+		const label = item.length > LABEL && item[LABEL] && item[LABEL] !== "" ? item[LABEL].trim() : undefined;
 		if (year || label) {
 			text += " (";
 			if (year)
@@ -73,7 +80,7 @@ const displayLists = data => {
 			text += ", " + sleeve;
 		}
 
-		const comment = item.length > 5 && item[5] && item[5] !== "" ? item[5].trim() : undefined;
+		const comment = item.length > COMMENT && item[COMMENT] && item[COMMENT] !== "" ? item[COMMENT].trim() : undefined;
 		if (comment) {
 			text += " (";
 			text += comment.toUpperCase();
