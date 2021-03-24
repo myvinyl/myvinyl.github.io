@@ -1,2 +1,2 @@
 # myvinyl.github.io
-Record collection page
+Simepl record collection page that displays item lists from JSON data.
