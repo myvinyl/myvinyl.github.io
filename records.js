@@ -85,9 +85,7 @@ const createSleeve = item => {
 
 const displayLists = data => {
 	const subListsAnchors = [];
-	let isEven = true;
-	let text = "";
-	let itemCount = 0;
+	let isEven = true, text = "", itemCount = 0;
 
 	data.forEach(item => {
 		if (!item || item.length === 0 || item[0].trim() === "") {
