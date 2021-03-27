@@ -7,6 +7,8 @@ const SLEEVE_MAPPING = Object.freeze({
 	"plain?": "P (plain only?)"
 });
 
+const CSV_DELIMITER = /#/;
+
 const ARTIST = 0;
 const TITLE = 1;
 const YEAR = 2;
@@ -18,7 +20,7 @@ const SUBLIST_INDICATOR = 'List';
 const SUBLIST_INDICATOR_INDEX = 0;
 const SUBLIST_ANCHOR_INDEX = 1;
 
-const DATA_FILE = 'list.json';
+const DATA_FILE = 'list.csv';
 
 const displayFooter = itemCount => {
 	$("#foot").append("(" + itemCount + " items)");
@@ -117,14 +119,24 @@ const displayLists = data => {
 	return { subListsAnchors, itemCount };
 }
 
+const splitLines = text => text.split(/\r\n|\r|\n/);
+
+const splitLine = line => line.split(CSV_DELIMITER);
+
+const csv2JsonArray = text => {
+	const jsonArray = [];
+	splitLines(text).forEach(lineText => jsonArray.push(splitLine(lineText)));
+	return jsonArray;
+}
+
 $(document).ready(function () {
-	$.getJSON(DATA_FILE, data => {
-		if (data === null) {
-			console.log('no data');
-			return;
+	$.ajax({
+		url: DATA_FILE,
+		dataType: "text",
+		success: response => {
+			const { subListsAnchors, itemCount } = displayLists(csv2JsonArray(csv));
+			displayContents(subListsAnchors);
+			displayFooter(itemCount);
 		}
-		const { subListsAnchors, itemCount } = displayLists(data);
-		displayContents(subListsAnchors);
-		displayFooter(itemCount);
 	});
 });
