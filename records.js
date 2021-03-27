@@ -22,6 +22,9 @@ const SUBLIST_ANCHOR_INDEX = 1;
 
 const DATA_FILE = 'list.csv';
 
+// do not process CSV header line
+const LINES_TO_IGNORE = [0];
+
 const displayFooter = itemCount => {
 	$("#foot").append("(" + itemCount + " items)");
 }
@@ -125,7 +128,7 @@ const splitLine = line => line.split(CSV_DELIMITER);
 
 const csv2JsonArray = text => {
 	const jsonArray = [];
-	splitLines(text).forEach(lineText => jsonArray.push(splitLine(lineText)));
+	splitLines(text).filter((_, index) => !LINES_TO_IGNORE.includes(index)).forEach(lineText => jsonArray.push(splitLine(lineText)));
 	return jsonArray;
 }
 
