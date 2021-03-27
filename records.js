@@ -133,8 +133,8 @@ $(document).ready(function () {
 	$.ajax({
 		url: DATA_FILE,
 		dataType: "text",
-		success: response => {
-			const { subListsAnchors, itemCount } = displayLists(csv2JsonArray(csv));
+		success: csvText => {
+			const { subListsAnchors, itemCount } = displayLists(csv2JsonArray(csvText));
 			displayContents(subListsAnchors);
 			displayFooter(itemCount);
 		}
