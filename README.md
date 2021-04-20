@@ -13,3 +13,7 @@ or
 Serve Webpack build on local development server:
 
 `npm run dev`
+
+Copy production build files to root folder:
+
+`cp dist/* .`
