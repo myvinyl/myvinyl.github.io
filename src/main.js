@@ -134,12 +134,10 @@ const csv2JsonArray = text => {
 	return jsonArray;
 }
 
-$.ajax({
-	url: csvUrl,
-	dataType: "text",
-	success: csvText => {
-		const { subListsAnchors, itemCount } = displayLists(csv2JsonArray(csvText));
+fetch(csvUrl)
+	.then(response => response.text())
+	.then(data => {
+		const { subListsAnchors, itemCount } = displayLists(csv2JsonArray(data));
 		displayContents(subListsAnchors);
 		displayFooter(itemCount);
-	}
-});
+	});
