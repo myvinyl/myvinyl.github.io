@@ -24,7 +24,7 @@ var config = {
         ]
       },
       {
-        test: /\.(txt|csv)$/,
+        test: /\.(csv)$/,
         use: [
           {
             loader: 'file-loader',

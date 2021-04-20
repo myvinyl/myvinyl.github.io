@@ -134,14 +134,12 @@ const csv2JsonArray = text => {
 	return jsonArray;
 }
 
-$(function () {
-	$.ajax({
-		url: csvUrl,
-		dataType: "text",
-		success: csvText => {
-			const { subListsAnchors, itemCount } = displayLists(csv2JsonArray(csvText));
-			displayContents(subListsAnchors);
-			displayFooter(itemCount);
-		}
-	});
-})
+$.ajax({
+	url: csvUrl,
+	dataType: "text",
+	success: csvText => {
+		const { subListsAnchors, itemCount } = displayLists(csv2JsonArray(csvText));
+		displayContents(subListsAnchors);
+		displayFooter(itemCount);
+	}
+});
