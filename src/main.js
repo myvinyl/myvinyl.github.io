@@ -1,5 +1,11 @@
 'use strict';
 
+require('file-loader?name=[name].[ext]!./index.html');
+
+import './css/style.css'
+import $ from "jquery";
+import csvUrl from './list.csv'
+
 const SLEEVE_MAPPING = Object.freeze({
 	none: "P",
 	FS: "CS",
@@ -19,8 +25,6 @@ const COMMENT = 5;
 const SUBLIST_INDICATOR = 'List';
 const SUBLIST_INDICATOR_INDEX = 0;
 const SUBLIST_ANCHOR_INDEX = 1;
-
-const DATA_FILE = 'list.csv';
 
 // do not process CSV header line
 const LINES_TO_IGNORE = [0];
@@ -130,9 +134,9 @@ const csv2JsonArray = text => {
 	return jsonArray;
 }
 
-$(document).ready(function () {
+$(function () {
 	$.ajax({
-		url: DATA_FILE,
+		url: csvUrl,
 		dataType: "text",
 		success: csvText => {
 			const { subListsAnchors, itemCount } = displayLists(csv2JsonArray(csvText));
@@ -140,4 +144,4 @@ $(document).ready(function () {
 			displayFooter(itemCount);
 		}
 	});
-});
+})
