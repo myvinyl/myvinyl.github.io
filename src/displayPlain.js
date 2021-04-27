@@ -2,6 +2,8 @@
 
 import $ from "jquery"
 
+import { createArtistTitle, createYearLabel, createSleeve, createComment } from './utils'
+
 const SLEEVE_MAPPING = Object.freeze({
 	none: "P",
 	FS: "CS",
@@ -28,48 +30,6 @@ const displayContents = subListsAnchors => {
 	text += "</ul>";
 
 	$("#content").append(text);
-}
-
-const getItemIndexOrUndefined = (item, index) => item.length > index && item[index] && item[index] !== "" ? item[index].trim() : undefined;
-
-const createArtistTitle = item => {
-	const artist = item[ARTIST];
-	const title = item[TITLE];
-	return artist.trim().toUpperCase() + " - " + title.trim().toUpperCase();
-}
-
-const createYearLabel = item => {
-	let text = '';
-	const year = getItemIndexOrUndefined(item, YEAR);
-	const label = getItemIndexOrUndefined(item, LABEL);
-	if (year || label) {
-		text += " (";
-		if (year)
-			text += year;
-		if (year && label)
-			text += " ";
-		if (label)
-			text += label.toUpperCase();
-		text += ")";
-	}
-	return text;
-}
-
-const createComment = item => {
-	const comment = getItemIndexOrUndefined(item, COMMENT);
-	if (comment) {
-		return " (" + comment.toUpperCase() + ")";
-	}
-	return '';
-}
-
-const createSleeve = item => {
-	const sleeve = getItemIndexOrUndefined(item, SLEEVE);
-	if (sleeve) {
-		const sleeveMapping = SLEEVE_MAPPING[sleeve];
-		return ", " + (sleeveMapping ?? sleeve);
-	}
-	return '';
 }
 
 const displayLists = dataArray => {
