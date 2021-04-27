@@ -16,11 +16,11 @@ const SLEEVE = 3;
 const LABEL = 4;
 const COMMENT = 5;
 
-export const displayFooter = itemCount => {
+const displayFooter = itemCount => {
 	$("#foot").append("(" + itemCount + " items)");
 }
 
-export const displayContents = subListsAnchors => {
+const displayContents = subListsAnchors => {
 	let text = "<ul>";
 	subListsAnchors.forEach(anchor => {
 		text += '<li><a href="#' + anchor + '">' + anchor + '</a></li>'
@@ -72,7 +72,7 @@ const createSleeve = item => {
 	return '';
 }
 
-export const displayLists = dataArray => {
+const displayLists = dataArray => {
 	let isEven = true, text = "";
 	dataArray.forEach(subList => {
 		text += '<h2><a name="' + subList.name + '">' + subList.name + '</a></h2>';
@@ -84,4 +84,10 @@ export const displayLists = dataArray => {
 		});
 	});
 	$("#output").append(text);
+}
+
+export const displayData = dataArray => {
+	displayLists(dataArray);
+	displayContents(dataArray.map(sublist => sublist.name));
+	displayFooter(dataArray.reduce((acc, sublist) => acc + sublist.items.length, 0));
 }
