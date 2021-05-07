@@ -1,22 +1,6 @@
-'use strict';
-
 import $ from "jquery"
 
 import { createArtistTitle, createYearLabel, createSleeve, createComment } from './utils'
-
-const SLEEVE_MAPPING = Object.freeze({
-	none: "P",
-	FS: "CS",
-	plain: "P (plain only)",
-	"plain?": "P (plain only?)"
-});
-
-const ARTIST = 0;
-const TITLE = 1;
-const YEAR = 2;
-const SLEEVE = 3;
-const LABEL = 4;
-const COMMENT = 5;
 
 const displayFooter = itemCount => {
 	$("#foot").append("(" + itemCount + " items)");

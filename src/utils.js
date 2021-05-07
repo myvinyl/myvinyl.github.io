@@ -1,20 +1,16 @@
-'use strict';
-
-import $ from "jquery"
-
-const SLEEVE_MAPPING = Object.freeze({
+export const SLEEVE_MAPPING = Object.freeze({
 	none: "P",
 	FS: "CS",
 	plain: "P (plain only)",
 	"plain?": "P (plain only?)"
 });
 
-const ARTIST = 0;
-const TITLE = 1;
-const YEAR = 2;
-const SLEEVE = 3;
-const LABEL = 4;
-const COMMENT = 5;
+export const ARTIST = 0;
+export const TITLE = 1;
+export const YEAR = 2;
+export const SLEEVE = 3;
+export const LABEL = 4;
+export const COMMENT = 5;
 
 const getItemIndex = (item, index) => item.length > index && item[index] && item[index] !== "" ? item[index].trim() : undefined;
 

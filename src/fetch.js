@@ -1,5 +1,3 @@
-'use strict';
-
 import csvUrl from './list.csv'
 
 const CSV_DELIMITER = /#/;
