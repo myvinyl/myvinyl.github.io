@@ -1,15 +1,13 @@
-'use strict';
+import './css/style.css';
+
+import { retrieveData } from './fetch';
+import { displayData } from './displayPlain';
 
 require('file-loader?name=[name].[ext]!./index.html');
 
-import './css/style.css'
- 
-import { retrieveData } from './fetch.js'
-import { displayData } from './displayPlain.js'
-
 async function doIt() {
-	const dataArray = await retrieveData();
-	displayData(dataArray);
+  const dataArray = await retrieveData();
+  displayData(dataArray);
 }
 
 doIt();
