@@ -5,6 +5,7 @@ import {
   createYearLabel,
   createSleeve,
   createComment,
+  createSearchLink,
 } from './utils';
 
 const displayFooter = (itemCount) => {
@@ -32,8 +33,12 @@ const displayLists = (dataArray) => {
       text +=
         createArtistTitle(item) +
         createYearLabel(item) +
+        ', ' +
         createSleeve(item) +
-        createComment(item);
+        ' ' +
+        createComment(item) +
+        ' ' +
+        createSearchLink(item);
       text += '</div>';
     });
   });

@@ -40,7 +40,7 @@ export const createYearLabel = (item) => {
 export const createComment = (item) => {
   const comment = getItemIndex(item, COMMENT);
   if (comment) {
-    return ' (' + comment.toUpperCase() + ')';
+    return '(' + comment.toUpperCase() + ')';
   }
   return '';
 };
@@ -49,7 +49,19 @@ export const createSleeve = (item) => {
   const sleeve = getItemIndex(item, SLEEVE);
   if (sleeve) {
     const sleeveMapping = SLEEVE_MAPPING[sleeve];
-    return ', ' + (sleeveMapping ? sleeveMapping : sleeve);
+    return sleeveMapping ? sleeveMapping : sleeve;
   }
   return '';
+};
+
+export const createSearchLink = (item) => {
+  const artist = item[ARTIST];
+  const title = item[TITLE];
+  return (
+    '<a target="_blank" href="https://www.discogs.com/search/?q=' +
+    artist.trim() +
+    ' ' +
+    title.trim() +
+    '&type=all">Discogs</a>'
+  );
 };
