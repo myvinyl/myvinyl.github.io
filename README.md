@@ -4,11 +4,10 @@ A simple record collection page that displays item lists from CSV data. See [pag
 
 # Webpack build
 
-`npm run build`
+Build:
 
-or
-
-`npm run build:prod`
+* `npm install`
+* `npm run build` (development mode) or `npm run build:prod` (production mode)
 
 Serve Webpack build on local development server:
 
